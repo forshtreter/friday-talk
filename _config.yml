@@ -12,13 +12,13 @@ kramdown:
   enable_coderay: false
 
 presentation:
-    title: Название темы
-    service: Сервис
+    title: Следующий шаг в эволюции BE*
+    service: Яндекс.Расписания
     nda: true
 
 author:
-    name: Автор
-    position: Должность
+    name: Арсений Форштретер
+    position: Старший разработчик интерфейсов
     company:
         name: Яндекс
         url:  http://yandex.ru/
