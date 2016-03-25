@@ -13,14 +13,10 @@ kramdown:
 
 presentation:
     title: Следующий шаг в эволюции BE*
-    service: Яндекс.Расписания
-    nda: true
+    service: Расписания
 
 author:
     name: Арсений Форштретер
     position: Старший разработчик интерфейсов
-    company:
-        name: Яндекс
-        url:  http://yandex.ru/
 
 progress: true

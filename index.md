@@ -51,13 +51,23 @@ layout: default
 
 ## View
 ~~~
+<!--BEM-->
 <button class="button button_size_large button_theme_action">
     Найти
 </button>
 
+<!--BEViS-->
 <button class="button_large-action">
     Найти
 </button>
+~~~
+
+## View
+~~~
+.button_large-action {
+    button_size_large();
+    button_theme_action();
+}
 ~~~
 
 ## Проблемы с View
@@ -65,15 +75,20 @@ layout: default
 * ...нельзя поменять (а иногда надо)
 
 ## Итого
-* BEM - гибко
-* BEViS - надёжно
+* BEM - гибко, но непредсказуемо
+* BEViS - предсказуемо, но не гибко
+
+## Проблема
+{:.shout}
 
 ## Презентационные классы
 ~~~
+<!--BEM-->
 <button class="button button_theme_action button_size_large">
     Найти
 </button>
 
+<!--BEViS-->
 <button class="button_action-large">
     Найти
 </button>
@@ -81,15 +96,24 @@ layout: default
 
 ## Презентационные классы
 ~~~
-<button style="background: #fc0">
+<button style="background: #fc0; font-size: 15px;">
     Найти
 </button>
 ~~~
 
 ## Отображение может зависеть от контекста
-* состояние родительского блока
+* ...состояние родительского блока
 * ...media queries
 * ...порядок в дереве (:nth-child и т.п.)
+
+## Что хочется
+~~~
+<form class="Form">
+    <button class="Button">
+        Найти
+    </button>
+</form>
+~~~
 
 ## Что хочется
 ~~~
@@ -104,6 +128,7 @@ layout: default
 ~~~
 
 ## CSS API
+{:.shout}
 
 ## Миксины
 ~~~
@@ -159,10 +184,10 @@ Button_size($size) {
 .Form__submit.Button {
     Button_size: normal;
     Button_theme: action;
+}
 
-    .Form_expanded & {
-        Button_size: large;
-    }
+.Form_expanded .Form__submit.Button {
+    Button_size: large;
 }
 ~~~
 
