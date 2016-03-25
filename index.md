@@ -16,8 +16,9 @@ layout: default
 	<p class="author">{{ site.author.name }}, <br/> {{ site.author.position }}</p>
 </div>
 
-{:.section}
+
 ## BE(M|ViS)
+{:.shout}
 
 ## BEM
 * блоки и элементы - ок
@@ -36,7 +37,7 @@ layout: default
 * ...миксов нет
 
 ## State
-~~~html
+~~~
 <!--BEM-->
 <button class="button button_pressed">
     Найти
@@ -49,7 +50,7 @@ layout: default
 ~~~
 
 ## View
-~~~html
+~~~
 <button class="button button_size_large button_theme_action">
     Найти
 </button>
@@ -67,13 +68,7 @@ layout: default
 * BEM - гибко
 * BEViS - надёжно
 
-## Отображение может зависеть от контекста
-* состояние родительского блока
-* ...media queries
-* ...порядок в дереве (:nth-child и т.п.)
-
 ## Презентационные классы
-
 ~~~
 <button class="button button_theme_action button_size_large">
     Найти
@@ -90,6 +85,11 @@ layout: default
     Найти
 </button>
 ~~~
+
+## Отображение может зависеть от контекста
+* состояние родительского блока
+* ...media queries
+* ...порядок в дереве (:nth-child и т.п.)
 
 ## Что хочется
 ~~~
@@ -234,6 +234,12 @@ Button_appearance($size, $theme = normal) {
 
 ## Надо так надо
 ~~~
+.Form__submit.Button {
+    Button_theme: action;
+    Button_size: normal;
+
+    width: 100px;
+}
 ~~~
 
 ## Возможно когда-нибудь
@@ -242,10 +248,6 @@ Button_appearance($size, $theme = normal) {
     @prop size {
         normal {
             font-size: 13px;
-        }
-
-        large {
-            font-size: 15px;
         }
     }
 
@@ -258,4 +260,5 @@ Button_appearance($size, $theme = normal) {
 * семантика
 * надёжность
 
+{:.shout}
 ## Всё
