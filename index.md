@@ -16,29 +16,24 @@ layout: default
 	<p class="author">{{ site.author.name }}, <br/> {{ site.author.position }}</p>
 </div>
 
+{:.section}
 ## BE(M|ViS)
 
 ## BEM
 * блоки и элементы - ок
-
-## BEM
-* блоки и элементы - ок
-* с модификаторами сложнее
+* ...с модификаторами сложнее
 
 ## Проблемы с модификаторами
-* у модификаторов бывают разные роли
-
-## Проблемы с модификаторами
-* у модификаторов бывают разные роли
-* модификаторов много и их взаимодействие не всегда предсказуемо
+* ...у модификаторов бывают разные роли
+* ...модификаторов много и их взаимодействие не всегда предсказуемо
 
 ## Миксы
 * еще более непредсказуемы, чем модификаторы
 
 ## BEViS
 * блоки и элементы по-прежнему ок
-* вместо модификаторов view и state
-* миксов нет
+* ...вместо модификаторов view и state
+* ...миксов нет
 
 ## State
 ~~~html
@@ -64,7 +59,7 @@ layout: default
 </button>
 ~~~
 
-## Проблемы с view
+## Проблемы с View
 * неудобно собирать
 * нельзя поменять (а иногда надо)
 
@@ -74,12 +69,12 @@ layout: default
 
 ## Отображение может зависеть от контекста
 * состояние родительского блока
-* media queries
-* порядок в дереве (:nth-child и т.п.)
+* ...media queries
+* ...порядок в дереве (:nth-child и т.п.)
 
 ## Презентационные классы
 
-~~~html
+~~~
 <button class="button button_theme_action button_size_large">
     Найти
 </button>
@@ -90,12 +85,14 @@ layout: default
 ~~~
 
 ## Презентационные классы
-~~~html
-<button style="background: #fc0"></button>
+~~~
+<button style="background: #fc0">
+    Найти
+</button>
 ~~~
 
 ## Что хочется
-~~~css
+~~~
 .Form .Button {
     size: normal;
     theme: action;
@@ -122,7 +119,7 @@ Button_size($size) {
 ~~~
 
 ## Миксины
-~~~css
+~~~
 .Form .Button {
     Button_size(normal);
     Button_theme(action);
@@ -134,7 +131,7 @@ Button_size($size) {
 ~~~
 
 ## На самом деле даже
-~~~css
+~~~
 .Form .Button {
     Button_size: normal;
     Button_theme: action;
@@ -149,7 +146,7 @@ Button_size($size) {
 * каскад
 
 ## Вторая жизнь миксов
-~~~html
+~~~
 <form class="Form">
     <button class="Button Form__submit">
         Найти
@@ -158,7 +155,7 @@ Button_size($size) {
 ~~~
 
 ## Вторая жизнь миксов
-~~~css
+~~~
 .Form__submit.Button {
     Button_size: normal;
     Button_theme: action;
@@ -261,4 +258,4 @@ Button_appearance($size, $theme = normal) {
 * семантика
 * надёжность
 
-## Всё {:.shout}
+## Всё
