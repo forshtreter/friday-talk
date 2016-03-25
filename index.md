@@ -12,281 +12,253 @@ layout: default
     <div class="service">{{ site.presentation.service }}</div>
 </div>
 
-{% if site.presentation.nda %}
-<div class="nda"></div>
-{% endif %}
-
 <div class="info">
 	<p class="author">{{ site.author.name }}, <br/> {{ site.author.position }}</p>
 </div>
 
-## Верхний колонтитул
-{:.section}
+## BE(M|ViS)
 
-### Название раздела
+## BEM
+* блоки и элементы - ок
 
-## Заголовок
+## BEM
+* блоки и элементы - ок
+* с модификаторами сложнее
 
-### Вводный текст (первый уровень текста)
+## Проблемы с модификаторами
+* у модификаторов бывают разные роли
 
-*  Второй уровень текста
-	* Третий уровень текста (буллиты)
+## Проблемы с модификаторами
+* у модификаторов бывают разные роли
+* модификаторов много и их взаимодействие не всегда предсказуемо
 
-	1. Четвертый уровень текста
+## Миксы
+* еще более непредсказуемы, чем модификаторы
 
-## Заголовок
+## BEViS
+* блоки и элементы по-прежнему ок
+* вместо модификаторов view и state
+* миксов нет
 
-### Вводный текст (первый уровень текста)
-![placeholder](pictures/vertical-placeholder.png){:.right-image}
+## State
+~~~html
+<!--BEM-->
+<button class="button button_pressed">
+    Найти
+</button>
 
-*  Второй уровень текста
-	* Третий уровень текста (буллиты)
-	* Третий уровень текста (буллиты)
+<!--BEViS-->
+<button class="button _pressed">
+    Найти
+</button>
+~~~
 
-	1. Четвертый уровень текста
+## View
+~~~html
+<button class="button button_size_large button_theme_action">
+    Найти
+</button>
 
-## &nbsp;
-{:.with-big-quote}
-> Цитата
+<button class="button_large-action">
+    Найти
+</button>
+~~~
 
-Текст
-{:.note}
+## Проблемы с view
+* неудобно собирать
+* нельзя поменять (а иногда надо)
 
-## Пример подсветки кода на JavaScript
+## Итого
+* BEM - гибко
+* BEViS - надёжно
 
-~~~ javascript
-!function() {
-    var jar,
-        rstoreNames = /[^\w]/g,
-        storageInfo = window.storageInfo || window.webkitStorageInfo,
-        toString = "".toString;
+## Отображение может зависеть от контекста
+* состояние родительского блока
+* media queries
+* порядок в дереве (:nth-child и т.п.)
 
-    jar = this.jar = function( name, storage ) {
-        return new jar.fn.init( name, storage );
-    };
+## Презентационные классы
 
-    jar.storages = [];
-    jar.instances = {};
-    jar.prefixes = {
-        storageInfo: storageInfo
-    };
+~~~html
+<button class="button button_theme_action button_size_large">
+    Найти
+</button>
 
-    jar.prototype = this.jar.fn = {
-        constructor: jar,
+<button class="button_action-large">
+    Найти
+</button>
+~~~
 
-        version: 0,
+## Презентационные классы
+~~~html
+<button style="background: #fc0"></button>
+~~~
 
-        storages: [],
-        support: {},
+## Что хочется
+~~~css
+.Form .Button {
+    size: normal;
+    theme: action;
+}
 
-        types: [ "xml", "html", "javascript", "js", "css", "text", "json" ],
+.Form_expanded .Button {
+    size: large;
+}
+~~~
 
-        init: function( name, storage ) {
+## CSS API
 
-            // Name of a object store must contain only alphabetical symbols or low dash
-            this.name = name ? name.replace( rstoreNames, "_" ) : "jar";
-            this.deferreds = {};
+## Миксины
+~~~
+Button_size($size) {
+    if ($size == normal) {
+        font-size: 13px;
+    }
 
-            if ( !storage ) {
-                this.order = jar.order;
-            }
+    if ($size == large) {
+        font-size: 15px;
+    }
+}
+~~~
 
-            // TODO – add support for aliases
-            return this.setup( storage || this.storages );
-        },
+## Миксины
+~~~css
+.Form .Button {
+    Button_size(normal);
+    Button_theme(action);
+}
 
-        // Setup for all storages
-        setup: function( storages ) {
-            this.storages = storages = storages.split ? storages.split(" ") : storages;
+.Form_expanded .Button {
+    Button_size(large);
+}
+~~~
 
-            var storage,
-                self = this,
-                def = this.register(),
-                rejects = [],
-                defs = [];
+## На самом деле даже
+~~~css
+.Form .Button {
+    Button_size: normal;
+    Button_theme: action;
+}
 
-            this.stores = jar.instances[ this.name ] || {};
+.Form_expanded .Button {
+    Button_size: large;
+}
+~~~
 
-            // Jar store meta-info in lc, if we don't have it – reject call
-            if ( !window.localStorage ) {
-                window.setTimeout(function() {
-                    def.reject();
-                });
-                return this;
-            }
+## Есть нюансы
+* каскад
 
-            // Initiate all storages that we can work with
-            for ( var i = 0, l = storages.length; i < l; i++ ) {
-                storage = storages[ i ];
+## Вторая жизнь миксов
+~~~html
+<form class="Form">
+    <button class="Button Form__submit">
+        Найти
+    </button>
+</form>
+~~~
 
-                // This check needed if user explicitly specified storage that
-                // he wants to work with, whereas browser don't implement it
-                if ( jar.isUsed( storage ) ) {
+## Вторая жизнь миксов
+~~~css
+.Form__submit.Button {
+    Button_size: normal;
+    Button_theme: action;
 
-                    // If jar with the same name was created, do not try to re-create store
-                    if ( !this.stores[ storage ] ) {
+    .Form_expanded & {
+        Button_size: large;
+    }
+}
+~~~
 
-                        // Initiate storage
-                        defs.push( this[ storage ]( this.name, this ) );
+## Есть нюансы
+* каскад
+* наложение миксинов друг на друга
 
-                        // Initiate meta-data for this storage
-                        this.log( storage );
-                    }
+## Правила написания миксинов
+* разные миксины для одного блока не пересекаются по свойствам
 
-                } else {
-                    rejects.push( storage );
-                }
-            }
+## Разделение ответственности
+~~~
+Button_theme($theme) {
+    // background, color, ...
+}
 
-            if ( !this.order ) {
-                this.order = {};
+Button_size($size) {
+    // font-size, margin, padding
+}
+~~~
 
-                for ( i = 0, l = this.types.length; i < l; i++ ) {
-                    this.order[ this.types[ i ] ] = storages;
-                }
-            }
+## Правила написания миксинов
+* разные миксины для одного блока не пересекаются по свойствам
+* разные значения миксинов для одного блока полностью перекрывают друг друга
 
-            if ( rejects.length == storages.length ) {
-                window.setTimeout(function() {
-                    def.reject();
-                });
+## Перекрытие
+~~~
+Button_theme($theme) {
+    if ($theme == action) {
+        background: #fc0;
+    }
+    if ($theme == promo) {
+        box-shadow: 0 0 0 10px #fc0;
+    }
+}
+~~~
 
-            } else {
-                jar.when.apply( this, defs )
-                    .done(function() {
-                        jar.instances[ this.name ] = this.stores;
+## Перекрытие
+~~~
+Button_theme($theme) {
+    if ($theme == action) {
+        background: #fc0;
+        box-shadow: none;
+    }
+    if ($theme == promo) {
+        background: transparent;
+        box-shadow: 0 0 0 10px #fc0;
+    }
+}
+~~~
 
-                        window.setTimeout(function() {
-                            def.resolve([ self ]);
-                        });
-                    })
-                    .fail(function() {
-                        def.reject();
-                    });
-            }
-            return this;
+## Есть нюансы
+* каскад
+* наложение миксинов друг на друга
+* зависимые друг от друга миксины
+
+## Можно объединить
+~~~
+Button_appearance($size, $theme = normal) {
+    ...
+}
+~~~
+
+## Есть нюансы
+* каскад
+* наложение миксинов друг на друга
+* зависимые друг от друга миксины
+* иногда всё-таки нужно добавить какие-то свойства
+
+## Надо так надо
+~~~
+~~~
+
+## Возможно когда-нибудь
+~~~
+.Button {
+    @prop size {
+        normal {
+            font-size: 13px;
         }
-    };
 
-    jar.fn.init.prototype = jar.fn;
+        large {
+            font-size: 15px;
+        }
+    }
 
-    jar.has = function( base, name ) {
-        return !!jar.fn.meta( name, base.replace( rstoreNames, "_" ) );
-    };
-}.call( window );
+    @allow width;
+}
 ~~~
 
-## Пример подсветки кода
-{:.code-with-text}
+## Итого
+* отделили мух от котлет
+* семантика
+* надёжность
 
-Вводный текст
-
-~~~ javascript
-var jar,
-    rstoreNames = /[^\w]/g,
-    storageInfo = window.storageInfo || window.webkitStorageInfo,
-    toString = "".toString;
-
-jar = this.jar = function( name, storage ) {
-    return new jar.fn.init( name, storage );
-};
-~~~
-
-## &nbsp;
-{:.big-code}
-
-~~~ javascript
-!function() {
-    var jar,
-        rstoreNames = /[^\w]/g,
-        storageInfo = window.storageInfo || window.webkitStorageInfo,
-        toString = "".toString;
-
-    jar = this.jar = function( name, storage ) {
-        return new jar.fn.init( name, storage );
-    };
-
-    jar.storages = [];
-    jar.instances = {};
-    jar.prefixes = {
-        storageInfo: storageInfo
-    };
-}.call( window );
-~~~
-
-## LaTeX
-
-Библиотека для латекса довольно тяжелая, а нужна она в редких случаях.
-Поэтому она не включена в репу, ее нужно либо установить через bower либо иметь интернет.
-
-When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
-$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-
-## Заголовок
-{:.images}
-
-![](pictures/horizontal-placeholder.png)
-*Текст*
-
-![](pictures/horizontal-placeholder.png)
-*Текст*
-
-![](pictures/horizontal-placeholder.png)
-*Текст*
-
-## Заголовок
-{:.images .two}
-
-![](pictures/horizontal-middle-placeholder.png)
-*Текст*
-
-![](pictures/horizontal-middle-placeholder.png)
-*Текст*
-
-## Заголовок
-{:.center}
-
-![](pictures/horizontal-big-placeholder.png){:.tmp}
-
-## **![](pictures/cover-placeholder.png)**
-
-## ![](pictures/horizontal-cover-placeholder.png)
-{:.cover}
-
-## Таблица
-
-|  Locavore      | Umami       | Helvetica | Vegan     |
-+----------------|-------------|-----------|-----------+
-| Fingerstache   | Kale        | Chips     | Keytar    |
-| Sriracha       | Gluten-free | Ennui     | Keffiyeh  |
-| Thundercats    | Jean        | Shorts    | Biodiesel |
-| Terry          | Richardson  | Swag      | Blog      |
-+----------------|-------------|-----------|-----------+
-
-
-## Таблица с дополнительным полем
-
-{:.with-additional-line}
-|  Locavore      | Umami       | Helvetica | Vegan     |
-+----------------|-------------|-----------|-----------+
-| Fingerstache   | Kale        | Chips     | Keytar    |
-| Sriracha       | Gluten-free | Ennui     | Keffiyeh  |
-| Thundercats    | Jean        | Shorts    | Biodiesel |
-| Terry          | Richardson  | Swag      | Blog      |
-+----------------|-------------|-----------|-----------+
-| Terry          | Richardson  | Swag      | Blog      |
-
-## **Контакты** {#contacts}
-
-<div class="info">
-<p class="author">{{ site.author.name }}</p>
-<p class="position">{{ site.author.position }}</p>
-
-    <div class="contacts">
-        <p class="contacts-left contacts-top phone">+7 (000) 000-00-00</p>
-        <p class="contacts-left mail">почта@yandex-team.ru</p>
-        <p class="contacts-right contacts-top twitter">@twitter</p>
-        <!-- <p class="contacts-right contacts-bottom vk">vk</p> -->
-        <p class="contacts-right facebook">facebook</p>
-    </div>
-</div>
+## Всё {:.shout}
