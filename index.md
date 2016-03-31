@@ -16,165 +16,103 @@ layout: default
 	<p class="author">{{ site.author.name }}, <br/> {{ site.author.position }}</p>
 </div>
 
-
-## BE(M|ViS)
+## <span style="font-family: 'Anka Coder', monospace;">BE(M|ViS)</span>
 {:.shout}
 
-## Проблемы с модификаторами
-* ...раздутый html
+## BE &mdash; хорошо
+{:.shout}
 
-## Раздутый html
-~~~
-<table class="b-timetable b-timetable_sort_yes
-    b-timetable_filter_yes b-timetable_ajax_yes
-    b-timetable_preset_trans i-bem b-timetable_js_inited"
->
-    ...
-</table>
-~~~
+## M в общем тоже неплохо
+{:.shout}
 
-## Проблемы с модификаторами
-* раздутый html
-* у модификаторов бывают разные роли
-* ...стили накладываются в непредсказуемом порядке
-* ...миксы только усугубляют вышеперечисленные проблемы
+## Модификаторы
+* ... + Гибкость и универсальность
+* ... - Непредсказуемость
 
-## BEViS
-* ...блоки и элементы &mdash; то же самое
-* ...view описывает отображение блока (большой, жёлтый и т.д.)
+## ViS
 
 ## View
 ~~~
-<!--BEM-->
-<button class="button button_size_large button_theme_action">
-    Найти
-</button>
+<button class="button button_size_large
+    button_theme_action" />
 
-<!--BEViS-->
-<button class="button_large-action">
-    Найти
-</button>
+<button class="button_large-action" />
 ~~~
-
-## View
-~~~
-.button_large-action {
-    button_size_large();
-    button_theme_action();
-}
-~~~
-
-## BEViS
-* блоки и элементы &mdash; то же самое
-* view описывает отображение блока (большой, жёлтый и т.д.)
-* ...state описывает состояние блока (нажатый, задизейбленный и т.д.)
 
 ## State
-~~~
-<!--BEM-->
-<button class="button button_size_large button_theme_action button_pressed">
-    Найти
-</button>
+~~
+<button class="button button_size_large
+    button_theme_action button_pressed_yes" />
 
-<!--BEViS-->
-<button class="button_large-action _pressed">
-    Найти
-</button>
+<button class="button_large-action _pressed" />
 ~~~
 
-## BEViS
-* блоки и элементы &mdash; то же самое
-* view описывает отображение блока (большой, жёлтый и т.д.)
-* state описывает состояние блока (нажатый, задизейбленный и т.д.)
-* view явно подчиняет state
-* ...миксов нет
+## View и State
+* ...+ Надёжность
+* ...- Трудно вносить изменения
 
-## Проблемы с view
-* ...необходимо создавать новое view для незначительных визуальных изменений
-* ...неудобно генерировать json
-* ...нельзя поменять в рантайме
-
-## Форма
-<img src="pictures/form-collapsed.png" style="width: 800px"/>
-
-## Форма
-<img src="pictures/form-expanded.png" style="width: 800px"/>
-
-## Форма
-<img src="pictures/form-mobile.png" style="height: 300px" />
-
-## Боль
+## Общий минус
 {:.shout}
 
-## Презентационные классы
-~~~
-<!--BEM-->
-<button class="button button_theme_action button_size_large">
-    Найти
-</button>
+## Форма
+<img src="pictures/form-collapsed.png" style="width: 100%;"/>
 
-<!--BEViS-->
-<button class="button_action-large">
-    Найти
-</button>
-~~~
+## Форма
+<img src="pictures/form-expanded.png" style="width: 100%"/>
 
-## Презентационные классы
-~~~
-<button style="background: #fc0; font-size: 15px;">
-    Найти
-</button>
-~~~
+## Форма
+* BEM &mdash; поменять модификаторы у 6 блоков через js
+* BEViS &mdash; view нельзя поменять в рантайме. Обходим серией убогих фокусов.
+
+## Форма
+<img src="pictures/form-mobile.png" style="height: 300px; display: block; margin: 0 auto" />
+
+## Отображение блоков может зависеть от контекста
+{:.shout}
 
 ## Отображение может зависеть от контекста
-* ...состояние родительского блока
-* ...media queries
-* ...порядок в дереве (:nth-child и т.п.)
+* состояние родительского блока
+* размер экрана
+* порядок в дереве
 
-## Разметка
-~~~
-<form class="Form">
-    <button class="Button">
-        Найти
-    </button>
-</form>
-~~~
+## Что хотим
+* ...Отделить состояния от оформления (BEViS)
+* ...Иметь контроль над порядком применения стилей (BEViS)
+* ...Легко комбинировать и модифицировать параметры отображения (BEM)
+* ...Легко менять отображения в зависимости от контекста (-)
 
-## Что хочется
+## Что хотим
 ~~~
 .Form .Button {
-    size: normal;
+    size: medium;
     theme: action;
 }
-
 .Form_expanded .Button {
     size: large;
 }
 ~~~
 
-## CSS API
+## Модификаторы-классы &rarr;<br/> модификаторы-свойства
 {:.shout}
 
-## Реализация (миксины на stylus)
+## Реализация (миксины)
 ~~~
 Button_size($size) {
     if ($size == normal) {
         font-size: 13px;
     }
-
     if ($size == large) {
         font-size: 15px;
     }
 }
 ~~~
 
-## Миксины
+## Реализация (миксины)
 ~~~
 .Form .Button {
     Button_size(normal);
     Button_theme(action);
 }
-
 .Form_expanded .Button {
     Button_size(large);
 }
@@ -186,45 +124,29 @@ Button_size($size) {
     Button_size: normal;
     Button_theme: action;
 }
-
 .Form_expanded .Button {
     Button_size: large;
 }
 ~~~
 
-## На самом деле даже
-~~~
-.Form .Button {
-    font-size: 13px;
-    background: #fc0;
-}
-
-.Form_expanded .Button {
-    font-size: 15px;
-}
-~~~
-
 ## Есть нюансы
-* ...каскад
+* ...дочерние селекторы - плохо
 
-## Каскад
+## Дочерние селекторы - плохо
 ~~~
 <main class="Content">
     <form class="Form">
-        <button class="Button">
-            Найти
-        </button>
+        <button class="Button" />
     </form>
 </main>
 ~~~
 
-## Каскад
+## Дочерние селекторы - плохо
 ~~~
 // Form.styl
 .Form .Button {
     Button_size: large;
 }
-
 // Content.styl
 .Content .Button {
     Button_size: normal;
@@ -254,15 +176,14 @@ Button_size($size) {
 ~~~
 
 ## Есть нюансы
-* каскад
-* наложение разных модификаторов друг на друга
+* ~~дочерние селекторы - плохо~~
+* ...пересечение разных модификаторов по свойствам
 
 ## Наложение
 ~~~
 Button_size($size) {
     font: 13px/18px Arial;
 }
-
 Button_theme($theme) {
     font-family: Verdana;
 }
@@ -271,34 +192,26 @@ Button_theme($theme) {
 ## Разделение ответственности
 ~~~
 Button_size($size) {
-    // font-size, margin, padding
+    // font-size, margin, padding ...
 }
-
 Button_theme($theme) {
-    // font-family, background, color, ...
+    // font-family, background, color ...
 }
 ~~~
-
-## Есть нюансы
-* каскад
-* наложение разных модификаторов друг на друга
-* разделить ответственность не всегда получается
 
 ## Нельзя разделить
 ~~~
 Button_size($size) {
     border-radius: ...
 }
-
 Button_shape($shape) {
     border-radius: ...
 }
 ~~~
 
-
 ## Можно объединить
 ~~~
-Button_geometry($size, $shape) {
+Button_geometry($shape, $size) {
     if ($size == normal && $shape == round) {
         border-radius: 10px;
     }
@@ -313,16 +226,14 @@ Button_geometry($size, $shape) {
 Button_size($size) {
     // как есть, без border-radius
 }
-
 Button_shape($shape, $size = normal) {
-    border-radius: 10px;
+    // выставляем нужный border-radius
 }
 ~~~
 
 ## Есть нюансы
-* каскад
-* наложение разных модификаторов друг на друга
-* разделить ответственность не всегда получается
+* ~~дочерние селекторы - плохо~~
+* ~~пересечение разных модификаторов по свойствам~~
 * разные значения одного модификатора задают разные свойства
 
 ## Разные значения
@@ -352,10 +263,9 @@ Button_theme($theme) {
 ~~~
 
 ## Есть нюансы
-* каскад
-* наложение разных модификаторов друг на друга
-* разделить ответственность не всегда получается
-* разные значения одного модификатора задают разные свойства
+* ~~дочерние селекторы - плохо~~
+* ~~пересечение разных модификаторов по свойствам~~
+* ~~разные значения одного модификатора задают разные свойства~~
 * ...иногда нужно задать дополнительные свойства
 
 ## Можно прямо так
@@ -378,31 +288,19 @@ Button_theme($theme) {
 }
 ~~~
 
-## Есть нюансы
-* каскад
-* наложение разных модификаторов друг на друга
-* разделить ответственность не всегда получается
-* разные значения одного модификатора задают разные свойства
-* иногда нужно задать дополнительные свойства
+## Что хотели
+* Отделить состояния от оформления
+    * ...Состояния остались классами, оформление стало миксинами
+* Иметь контроль над порядком применения стилей
+    * ...Все стили блока применяются в одном месте
+* Легко комбинировать и модифицировать параметры отображения
+    * ...Можно вызвать нужный набор миксинов, при необходимости дополнив
+* ...Легко менять отображения в зависимости от контекста (-)
+    * ...Да
 
-## Что дальше? (а может быть и нет)
-~~~
-.Button {
-    @prop size {
-        @value normal {
-            ...
-        }
-    }
-
-    @allow width;
-}
-~~~
-
-## Итого
+## Бонусы
 * ...осмысленный, лёгкий и читаемый html
-* ...возможность легко сменить оформление в зависимости от контекста
-* ...применение модификаторов локализовано и управляемо
-* ...бонус: в сборку автоматически попадает только то, что используется
+* ...неиспользуемые модификаторы не попадут в сборку
 
 {:.shout}
 ## Всё
