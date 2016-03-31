@@ -25,7 +25,10 @@ layout: default
 
 ## Раздутый html
 ~~~
-<table class="b-timetable b-timetable_sort_yes b-timetable_filter_yes b-timetable_ajax_yes b-timetable_preset_trans i-bem b-timetable_js_inited">
+<table class="b-timetable b-timetable_sort_yes
+    b-timetable_filter_yes b-timetable_ajax_yes
+    b-timetable_preset_trans i-bem b-timetable_js_inited"
+>
     ...
 </table>
 ~~~
@@ -92,13 +95,13 @@ layout: default
 * ...нельзя поменять в рантайме
 
 ## Форма
-<img src="pictures/form-collapsed.png" />{:.center}
+<img src="pictures/form-collapsed.png" style="width: 800px"/>
 
 ## Форма
-<img src="pictures/form-expanded.png" />{:.center}
+<img src="pictures/form-expanded.png" style="width: 800px"/>
 
 ## Форма
-<img src="pictures/form-mobile.png" />{:.center}
+<img src="pictures/form-mobile.png" style="height: 300px" />
 
 ## Боль
 {:.shout}
