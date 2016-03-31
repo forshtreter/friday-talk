@@ -20,34 +20,25 @@ layout: default
 ## BE(M|ViS)
 {:.shout}
 
-## BEM
-* блоки и элементы - ок
-* ...с модификаторами сложнее
+## Проблемы с модификаторами
+* ...раздутый html
+
+## Раздутый html
+~~~
+<table class="b-timetable b-timetable_sort_yes b-timetable_filter_yes b-timetable_ajax_yes b-timetable_preset_trans i-bem b-timetable_js_inited">
+    ...
+</table>
+~~~
 
 ## Проблемы с модификаторами
-* ...у модификаторов бывают разные роли
-* ...модификаторов много и их взаимодействие не всегда предсказуемо
-
-## Миксы
-* еще более непредсказуемы, чем модификаторы
+* раздутый html
+* у модификаторов бывают разные роли
+* ...стили накладываются в непредсказуемом порядке
+* ...миксы только усугубляют вышеперечисленные проблемы
 
 ## BEViS
-* блоки и элементы по-прежнему ок
-* ...вместо модификаторов view и state
-* ...миксов нет
-
-## State
-~~~
-<!--BEM-->
-<button class="button button_pressed">
-    Найти
-</button>
-
-<!--BEViS-->
-<button class="button _pressed">
-    Найти
-</button>
-~~~
+* ...блоки и элементы &mdash; то же самое
+* ...view описывает отображение блока (большой, жёлтый и т.д.)
 
 ## View
 ~~~
@@ -70,15 +61,46 @@ layout: default
 }
 ~~~
 
-## Проблемы с View
-* ...неудобно собирать
-* ...нельзя поменять (а иногда надо)
+## BEViS
+* блоки и элементы &mdash; то же самое
+* view описывает отображение блока (большой, жёлтый и т.д.)
+* ...state описывает состояние блока (нажатый, задизейбленный и т.д.)
 
-## Итого
-* BEM - гибко, но непредсказуемо
-* BEViS - предсказуемо, но не гибко
+## State
+~~~
+<!--BEM-->
+<button class="button button_size_large button_theme_action button_pressed">
+    Найти
+</button>
 
-## Проблема
+<!--BEViS-->
+<button class="button_large-action _pressed">
+    Найти
+</button>
+~~~
+
+## BEViS
+* блоки и элементы &mdash; то же самое
+* view описывает отображение блока (большой, жёлтый и т.д.)
+* state описывает состояние блока (нажатый, задизейбленный и т.д.)
+* view явно подчиняет state
+* ...миксов нет
+
+## Проблемы с view
+* ...необходимо создавать новое view для незначительных визуальных изменений
+* ...неудобно генерировать json
+* ...нельзя поменять в рантайме
+
+## Форма
+<img src="pictures/form-collapsed.png" />{:.center}
+
+## Форма
+<img src="pictures/form-expanded.png" />{:.center}
+
+## Форма
+<img src="pictures/form-mobile.png" />{:.center}
+
+## Боль
 {:.shout}
 
 ## Презентационные классы
@@ -106,7 +128,7 @@ layout: default
 * ...media queries
 * ...порядок в дереве (:nth-child и т.п.)
 
-## Что хочется
+## Разметка
 ~~~
 <form class="Form">
     <button class="Button">
@@ -130,7 +152,7 @@ layout: default
 ## CSS API
 {:.shout}
 
-## Миксины
+## Реализация (миксины на stylus)
 ~~~
 Button_size($size) {
     if ($size == normal) {
@@ -167,53 +189,140 @@ Button_size($size) {
 }
 ~~~
 
-## Есть нюансы
-* каскад
-
-## Вторая жизнь миксов
+## На самом деле даже
 ~~~
-<form class="Form">
-    <button class="Button Form__submit">
-        Найти
-    </button>
-</form>
-~~~
-
-## Вторая жизнь миксов
-~~~
-.Form__submit.Button {
-    Button_size: normal;
-    Button_theme: action;
+.Form .Button {
+    font-size: 13px;
+    background: #fc0;
 }
 
-.Form_expanded .Form__submit.Button {
+.Form_expanded .Button {
+    font-size: 15px;
+}
+~~~
+
+## Есть нюансы
+* ...каскад
+
+## Каскад
+~~~
+<main class="Content">
+    <form class="Form">
+        <button class="Button">
+            Найти
+        </button>
+    </form>
+</main>
+~~~
+
+## Каскад
+~~~
+// Form.styl
+.Form .Button {
     Button_size: large;
 }
+
+// Content.styl
+.Content .Button {
+    Button_size: normal;
+}
+~~~
+
+## Миксы!
+~~~
+<main class="Page">
+    <form class="Form">
+        <button class="Button Form__submit">
+            Найти
+        </button>
+    </form>
+</main>
+~~~
+
+## Миксы!
+~~~
+.Form__submit.Button {
+    Button_size: large;
+}
+
+.Content__button.Button {
+    Button_size: normal;
+}
 ~~~
 
 ## Есть нюансы
 * каскад
-* наложение миксинов друг на друга
+* наложение разных модификаторов друг на друга
 
-## Правила написания миксинов
-* разные миксины для одного блока не пересекаются по свойствам
+## Наложение
+~~~
+Button_size($size) {
+    font: 13px/18px Arial;
+}
+
+Button_theme($theme) {
+    font-family: Verdana;
+}
+~~~
 
 ## Разделение ответственности
 ~~~
-Button_theme($theme) {
-    // background, color, ...
-}
-
 Button_size($size) {
     // font-size, margin, padding
 }
+
+Button_theme($theme) {
+    // font-family, background, color, ...
+}
 ~~~
 
-## Правила написания миксинов
-* разные миксины для одного блока не пересекаются по свойствам
-* разные значения миксинов для одного блока полностью перекрывают друг друга
+## Есть нюансы
+* каскад
+* наложение разных модификаторов друг на друга
+* разделить ответственность не всегда получается
 
-## Перекрытие
+## Нельзя разделить
+~~~
+Button_size($size) {
+    border-radius: ...
+}
+
+Button_shape($shape) {
+    border-radius: ...
+}
+~~~
+
+
+## Можно объединить
+~~~
+Button_geometry($size, $shape) {
+    if ($size == normal && $shape == round) {
+        border-radius: 10px;
+    }
+    if ($size == large && $shape == round) {
+        border-radius: 20px;
+    }
+}
+~~~
+
+## Или добавить где-то дополнительный параметр
+~~~
+Button_size($size) {
+    // как есть, без border-radius
+}
+
+Button_shape($shape, $size = normal) {
+    border-radius: 10px;
+}
+~~~
+
+## Есть нюансы
+* каскад
+* наложение разных модификаторов друг на друга
+* разделить ответственность не всегда получается
+* разные значения одного модификатора задают разные свойства
+
+## Разные значения
 ~~~
 Button_theme($theme) {
     if ($theme == action) {
@@ -241,25 +350,12 @@ Button_theme($theme) {
 
 ## Есть нюансы
 * каскад
-* наложение миксинов друг на друга
-* некоторые свойства всё-таки могут зависеть от нескольких миксинов
+* наложение разных модификаторов друг на друга
+* разделить ответственность не всегда получается
+* разные значения одного модификатора задают разные свойства
+* ...иногда нужно задать дополнительные свойства
 
-## Можно объединить
-~~~
-Button_appearance($size, $theme = normal) {
-    if ($size == normal && $theme == round) {
-        border-radius: 10px;
-    }
-}
-~~~
-
-## Есть нюансы
-* каскад
-* наложение миксинов друг на друга
-* некоторые свойства всё-таки могут зависеть от нескольких миксинов
-* иногда всё-таки нужно добавить какие-то свойства вне API
-
-## Надо так надо
+## Можно прямо так
 ~~~
 .Form__submit.Button {
     Button_theme: action;
@@ -269,12 +365,29 @@ Button_appearance($size, $theme = normal) {
 }
 ~~~
 
-## Возможно когда-нибудь
+## Но лучше так
+~~~
+.Form__submit.Button {
+    Button_theme: action;
+    Button_size: normal;
+
+    Button_width: medium;
+}
+~~~
+
+## Есть нюансы
+* каскад
+* наложение разных модификаторов друг на друга
+* разделить ответственность не всегда получается
+* разные значения одного модификатора задают разные свойства
+* иногда нужно задать дополнительные свойства
+
+## Что дальше? (а может быть и нет)
 ~~~
 .Button {
     @prop size {
-        normal {
-            font-size: 13px;
+        @value normal {
+            ...
         }
     }
 
@@ -283,11 +396,10 @@ Button_appearance($size, $theme = normal) {
 ~~~
 
 ## Итого
-* ...отделили мух от котлет
-* ...гибкость
-* ...надёжность
-* ...семантика
-* ...в сборку попадает то, что используется
+* ...осмысленный, лёгкий и читаемый html
+* ...возможность легко сменить оформление в зависимости от контекста
+* ...применение модификаторов локализовано и управляемо
+* ...бонус: в сборку автоматически попадает только то, что используется
 
 {:.shout}
 ## Всё
