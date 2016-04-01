@@ -3,6 +3,9 @@
 layout: default
 
 ---
+<style>
+    strike { opacity: .75; }
+</style>
 
 # Яндекс
 
@@ -13,10 +16,10 @@ layout: default
 </div>
 
 <div class="info">
-	<p class="author">{{ site.author.name }}, <br/> {{ site.author.position }}</p>
+	<p class="author">{{ site.author.name }}, <br/> Группа интерфейсов<br/>сервисов расписаний</p>
 </div>
 
-## <span style="font-family: 'Anka Coder', monospace;">BE(M|ViS)</span>
+## BE<span style="color:#666">(</span>M<span style="color:#666">|</span>ViS<span style="color:#666">)</span>
 {:.shout}
 
 ## BE &mdash; хорошо
@@ -26,10 +29,25 @@ layout: default
 {:.shout}
 
 ## Модификаторы
-* ... + Гибкость и универсальность
-* ... - Непредсказуемость
+* ... + Гибкость
+* ... — Непредсказуемость
+
+## Непредсказуемость
+~~~
+.button_theme_normal {
+    border: 1px solid rgba(0,0,0,.2);
+}
+.button_pin_left {
+    border-left: 0;
+}
+~~~
+
+## Модификаторы
+* ... + Гибкость
+* ... — Непредсказуемость
 
 ## ViS
+{:.shout}
 
 ## View
 ~~~
@@ -49,7 +67,7 @@ layout: default
 
 ## View и State
 * ...+ Надёжность
-* ...- Трудно вносить изменения
+* ...— Трудно вносить изменения
 
 ## Общий минус
 {:.shout}
@@ -75,13 +93,13 @@ layout: default
 * размер экрана
 * порядок в дереве
 
-## Что хотим
+## Чего хотелось
 * ...Отделить состояния от оформления (BEViS)
 * ...Иметь контроль над порядком применения стилей (BEViS)
 * ...Легко комбинировать и модифицировать параметры отображения (BEM)
 * ...Легко менять отображения в зависимости от контекста (-)
 
-## Что хотим
+## Решение
 ~~~
 .Form .Button {
     size: medium;
@@ -92,7 +110,7 @@ layout: default
 }
 ~~~
 
-## Модификаторы-классы &rarr;<br/> модификаторы-свойства
+## <span style="font-size: .75em;">Модификаторы-классы<br/> &darr;<br/> модификаторы-свойства</span>
 {:.shout}
 
 ## Реализация (миксины)
@@ -143,11 +161,9 @@ Button_size($size) {
 
 ## Дочерние селекторы - плохо
 ~~~
-// Form.styl
 .Form .Button {
     Button_size: large;
 }
-// Content.styl
 .Content .Button {
     Button_size: normal;
 }
@@ -157,9 +173,7 @@ Button_size($size) {
 ~~~
 <main class="Page">
     <form class="Form">
-        <button class="Button Form__submit">
-            Найти
-        </button>
+        <button class="Button Form__submit" />
     </form>
 </main>
 ~~~
