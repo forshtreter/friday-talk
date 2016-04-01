@@ -167,7 +167,7 @@ Button_size($size) {
 
 ## Миксы!
 ~~~
-<main class="Page">
+<main class="Content">
     <form class="Form">
         <button class="Button Form__submit" />
     </form>
